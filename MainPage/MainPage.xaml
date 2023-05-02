@@ -13,6 +13,5 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-
     <ContentPresenter Content="{Binding}"/>
 </Page>
