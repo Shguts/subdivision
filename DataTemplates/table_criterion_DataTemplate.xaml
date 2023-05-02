@@ -1,0 +1,43 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Pages="clr-namespace:subdivision.Pages"
+                    xmlns:baseObjectsMvvm="clr-namespace:BaseObjectsMVVM;assembly=BaseObjectsMVVM"
+                    xmlns:wpfControls="clr-namespace:BaseObjectsMVVM.WpfControls;assembly=BaseObjectsMVVM"
+                    xmlns:global="clr-namespace:;assembly=BaseObjectsMVVM"
+                    xmlns:tableCriterion="clr-namespace:subdivision.Pages.TableCriterion">
+    <DataTemplate DataType="{x:Type tableCriterion:TablecriterionVMwm}">
+        <DockPanel>
+            <ToolBar DockPanel.Dock="Top">
+                <Button Content="Назад" Command="{Binding GoBackCommand}"/>
+                <Button Content="Обновить" Command="{Binding CriteriesListVM.UpdateCommand}"/>
+                <Button Content="Сохранить" Command="{Binding CriteriesListVM.SaveCommand}"/>
+            </ToolBar>
+            <StackPanel DockPanel.Dock="Right">
+                <StackPanel>
+                    <TextBlock Text="Критерий" Foreground="Black" >
+                        <TextBox FontWeight="Bold" VerticalAlignment="Center" Width="200" Text="{Binding CriteriesListVM.SelectedItem.CriteriesName}"></TextBox>
+                    </TextBlock>
+                </StackPanel>
+                <Button Content="Добавить критерий" Command="{Binding CriteriesListVM.CreateItemCommand}"/>
+            </StackPanel>
+            <wpfControls:DataGrid ItemsSource="{Binding CriteriesListVM.Items}" 
+                                  AutoGenerateColumns="False"
+                                  IsReadOnly="False"
+                                  SelectedItem="{Binding CriteriesListVM.SelectedItem}"
+                                  DoubleClickCommand="{Binding CriteriesListVM.OpenItemCommand}"
+            >
+                <DataGrid.Columns>
+                    <DataGridTextColumn IsReadOnly="True" Binding="{Binding IdCriterie}" Header="№ критерия"/>
+                    <DataGridTextColumn Binding="{Binding CriteriesName}" Header="Критерий"/>
+                </DataGrid.Columns>
+                
+            </wpfControls:DataGrid>
+            
+        </DockPanel>
+    </DataTemplate>
+    
+    
+    
+    
+</ResourceDictionary>
+

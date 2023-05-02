@@ -1,0 +1,35 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:tableSubunits="clr-namespace:subdivision.Pages.TableSubunits"
+                    xmlns:wpfControls="clr-namespace:BaseObjectsMVVM.WpfControls;assembly=BaseObjectsMVVM">
+    <DataTemplate DataType="{x:Type tableSubunits:TablesubunitsVMwm}">
+        <DockPanel>
+            <ToolBar DockPanel.Dock="Top">
+                <Button Content="Назад" Command="{Binding GoBackCommand}"/>
+                <Button Content="Обновить" Command="{Binding SubunitListVM}"/>
+                <Button Content="Сохранить" Command="{Binding SubunitListVM.SaveCommand}"/>
+            </ToolBar>
+            <StackPanel DockPanel.Dock="Right">
+                <StackPanel>
+                    <TextBlock Text="Подразделение" Foreground="Black" >
+                        <TextBox FontWeight="Bold" VerticalAlignment="Center" Width="200" Text="{Binding SubunitListVM.SelectedItem.SubunitName}"></TextBox>
+                    </TextBlock>
+                </StackPanel>
+                <Button Content="Добавить подразделение" Command="{Binding SubunitListVM.CreateItemCommand}"/>
+            </StackPanel>
+            <wpfControls:DataGrid ItemsSource="{Binding SubunitListVM.Items}" 
+                                  AutoGenerateColumns="False"
+                                  IsReadOnly="False"
+                                  SelectedItem="{Binding SubunitListVM.SelectedItem}"
+                                  DoubleClickCommand="{Binding SubunitListVM.OpenItemCommand}"
+            >
+                <DataGrid.Columns>
+                    <DataGridTextColumn IsReadOnly="True" Binding="{Binding IdSubunit}" Header="№ подразделения"/>
+                    <DataGridTextColumn Binding="{Binding SubunitName}" Header="Подразделение"/>
+                </DataGrid.Columns>
+                
+            </wpfControls:DataGrid>
+            
+        </DockPanel>
+    </DataTemplate>
+</ResourceDictionary>

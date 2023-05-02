@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:MainPage="clr-namespace:subdivision.MainPage"
+                    xmlns:baseObjectsMvvm="clr-namespace:BaseObjectsMVVM;assembly=BaseObjectsMVVM"
+                    xmlns:wpfControls="clr-namespace:BaseObjectsMVVM.WpfControls;assembly=BaseObjectsMVVM"
+                    xmlns:global="clr-namespace:;assembly=BaseObjectsMVVM">
+
+    <DataTemplate DataType="{x:Type MainPage:MainPageVMwm}">
+        <DockPanel>
+            <!--<wpfControls:CustomPasswordBox DockPanel.Dock="Top" Width="200" Text="{Binding psswd}"></wpfControls:CustomPasswordBox>-->
+            <Button Content="Go" DockPanel.Dock="Top" Width="200" Height="100" Command="{Binding NextPage}" />
+            <TextBox VerticalAlignment="Center" Width="200" Text="{Binding psswd}"/>
+        </DockPanel>
+    </DataTemplate>
+</ResourceDictionary>
