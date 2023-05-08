@@ -154,15 +154,8 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainPage\MainPageVMwm.cs" />
-    <Page Include="DataTemplates\balls_of_criterion_DataTemplate.xaml" />
-    <Page Include="DataTemplates\balls_of_subunits_DataTemplate.xaml" />
-    <Page Include="DataTemplates\balls_of_tasks_DataTemplate.xaml" />
-    <Page Include="DataTemplates\mainPage_DataTemplate.xaml" />
-    <Page Include="DataTemplates\table_criterion_DataTemplate.xaml" />
-    <Page Include="DataTemplates\table_experts_DataTemplate.xaml" />
-    <Page Include="DataTemplates\table_subunits_DataTemplate.xaml" />
-    <Page Include="DataTemplates\table_tasks_DataTemplate.xaml" />
     <Page Include="MainPage\MainPage.xaml" />
+    <Page Include="MainPage\mainPage_DataTemplate.xaml" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -176,12 +169,20 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pages\BallsofCriterion\BallsofCriterion.xaml" />
+    <Page Include="Pages\BallsofCriterion\balls_of_criterion_DataTemplate.xaml" />
     <Page Include="Pages\BallsofSubunits\BallsofSubunits.xaml" />
+    <Page Include="Pages\BallsofSubunits\balls_of_subunits_DataTemplate.xaml" />
     <Page Include="Pages\BallsofTasks\BallsofTasks.xaml" />
+    <Page Include="Pages\BallsofTasks\balls_of_tasks_DataTemplate.xaml" />
+    <Page Include="Pages\Statistics\statistics_DataTemplate.xaml" />
     <Page Include="Pages\Statistics\Stats.xaml" />
+    <Page Include="Pages\TableCriterion\table_criterion_DataTemplate.xaml" />
     <Page Include="Pages\TableExperts\Tableexperts.xaml" />
     <Page Include="Pages\TableCriterion\Criterion.xaml" />
+    <Page Include="Pages\TableExperts\table_experts_DataTemplate.xaml" />
     <Page Include="Pages\TableSubunits\Subunit.xaml" />
+    <Page Include="Pages\TableSubunits\table_subunits_DataTemplate.xaml" />
+    <Page Include="Pages\TableTasks\table_tasks_DataTemplate.xaml" />
     <Page Include="Pages\TableTasks\Tasks.xaml" />
   </ItemGroup>
   <ItemGroup>
@@ -228,6 +229,7 @@
     <Compile Include="Pages\Statistics\Stats.xaml.cs">
       <DependentUpon>Stats.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Statistics\StatsVMwm.cs" />
     <Compile Include="Pages\TableExperts\TableexpertsVMwm.cs" />
     <Compile Include="Pages\TableExperts\Tableexperts.xaml.cs">
       <DependentUpon>Tableexperts.xaml</DependentUpon>

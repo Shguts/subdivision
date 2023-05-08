@@ -1,0 +1,25 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:statistics="clr-namespace:subdivision.Pages.Statistics">
+     <DataTemplate DataType="{x:Type statistics:StatsVMwm}">
+        <DockPanel>
+            <TextBlock FontSize="16" Text="q глобальный для критериев"/>
+            <ListBox DockPanel.Dock="Left" BorderThickness="3" ItemsSource="{Binding BallsOfCriterionList}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate >
+                        <WrapPanel ItemWidth="40" Width="{Binding WrapPanelWidth}" ItemHeight="20"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="Black">
+                            <StackPanel>
+                                <TextBox Width="40" IsReadOnly="True" Text="{Binding Descr}"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ListBox>
+        </DockPanel>
+    </DataTemplate>
+</ResourceDictionary>

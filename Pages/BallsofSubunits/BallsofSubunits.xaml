@@ -9,7 +9,7 @@
       <Page.Resources>
             <ResourceDictionary>
                   <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="/DataTemplates/balls_of_subunits_DataTemplate.xaml"/>
+                        <ResourceDictionary Source="balls_of_subunits_DataTemplate.xaml"/>
                   </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
       </Page.Resources>

@@ -1,21 +1,22 @@
-﻿D:\j\subdivision\obj\Debug\GeneratedInternalTypeHelper.g.cs
+﻿
 
-FD:\j\subdivision\DataTemplates\balls_of_criterion_DataTemplate.xaml;;
-FD:\j\subdivision\DataTemplates\balls_of_subunits_DataTemplate.xaml;;
-FD:\j\subdivision\DataTemplates\balls_of_tasks_DataTemplate.xaml;;
-FD:\j\subdivision\DataTemplates\mainPage_DataTemplate.xaml;;
-FD:\j\subdivision\DataTemplates\table_criterion_DataTemplate.xaml;;
-FD:\j\subdivision\DataTemplates\table_experts_DataTemplate.xaml;;
-FD:\j\subdivision\DataTemplates\table_subunits_DataTemplate.xaml;;
-FD:\j\subdivision\DataTemplates\table_tasks_DataTemplate.xaml;;
 FD:\j\subdivision\MainPage\MainPage.xaml;;
+FD:\j\subdivision\MainPage\mainPage_DataTemplate.xaml;;
 FD:\j\subdivision\MainWindow.xaml;;
 FD:\j\subdivision\Pages\BallsofCriterion\BallsofCriterion.xaml;;
+FD:\j\subdivision\Pages\BallsofCriterion\balls_of_criterion_DataTemplate.xaml;;
 FD:\j\subdivision\Pages\BallsofSubunits\BallsofSubunits.xaml;;
+FD:\j\subdivision\Pages\BallsofSubunits\balls_of_subunits_DataTemplate.xaml;;
 FD:\j\subdivision\Pages\BallsofTasks\BallsofTasks.xaml;;
+FD:\j\subdivision\Pages\BallsofTasks\balls_of_tasks_DataTemplate.xaml;;
 FD:\j\subdivision\Pages\Statistics\Stats.xaml;;
+FD:\j\subdivision\Pages\TableCriterion\table_criterion_DataTemplate.xaml;;
 FD:\j\subdivision\Pages\TableExperts\Tableexperts.xaml;;
 FD:\j\subdivision\Pages\TableCriterion\Criterion.xaml;;
+FD:\j\subdivision\Pages\TableExperts\table_experts_DataTemplate.xaml;;
 FD:\j\subdivision\Pages\TableSubunits\Subunit.xaml;;
+FD:\j\subdivision\Pages\TableSubunits\table_subunits_DataTemplate.xaml;;
+FD:\j\subdivision\Pages\TableTasks\table_tasks_DataTemplate.xaml;;
 FD:\j\subdivision\Pages\TableTasks\Tasks.xaml;;
+FD:\j\subdivision\Pages\Statistics\statistics_DataTemplate.xaml;;
 

@@ -6,28 +6,14 @@
       xmlns:local="clr-namespace:subdivision.Pages.Statistics"
       mc:Ignorable="d"
       Title="Stats" Height="1080" Width="1920">
-    <Grid>
-        <TextBlock VerticalAlignment="Center" TextAlignment="Center" FontSize="26" Text="q">
-            <LineBreak/>
-            <ListBox>
-                <ListBox FontSize="16" DockPanel.Dock="Left" BorderThickness="3" ItemsSource="{Binding InfoArray}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate >
-                            <WrapPanel ItemWidth="80" Width="{Binding WrapPanelWidth}" ItemHeight="40"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border BorderBrush="Black">
-                                <StackPanel>
-                                    <TextBox Height="90" Background="GreenYellow" Width="600" IsReadOnly="{Binding IsReadOnly}" Text="{Binding Descr}"/>
-                                </StackPanel>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ListBox>
-            </ListBox>
-            
-        </TextBlock>
-    </Grid>
+      <Page.Resources>
+            <ResourceDictionary>
+                  <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="statistics_DataTemplate.xaml"/>
+                  </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+      </Page.Resources>
+    
+
+      <ContentPresenter Content="{Binding}"/>
 </Page>
