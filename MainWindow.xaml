@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:subdivision"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1920" Width="1080"
-        >
+        Title="MainWindow" Height="1080" Width="1920">
     <Frame Name="MainFrame" NavigationUIVisibility="Hidden"/>
 </Window>

@@ -3,21 +3,20 @@ using System.Data;
 using System.Data.SQLite;
 using System.Windows;
 using BaseObjectsMVVM;
-using subdivision.Models.experts;
-using subdivision.Models.Tasks;
+using subdivision.Models.balls_of_criterion;
 
-namespace subdivision.Models.balls_of_criterion
+namespace subdivision.Models.balls_of_tasks
 {
-    public class CriterionBallsSql:ModelSql<CriterionBallsM>
+    public class TasksBallsSql:ModelSql<TasksBallsM>
     {
-         public override int? Create(CriterionBallsM item)
+        public override int? Create(TasksBallsM item)
         {
             try
             {
                 MainStaticObject.SqlManager.Connection.Open();
                 var res = new SQLiteDataAdapter(
-                    "insert into balls_of_criterion(ExpertID, CriterieID,mark,q) select "
-                    +item.ExpertID+",'"+item.CriterieID+"','"+item.mark+"','"+item.q+"'; select max(ExpertID) from balls_of_criterion",
+                    "insert into balls_of_tasks(ExpertID, CriterieID, TaskID ,mark) select "
+                    +item.ExpertID+",'"+item.CriterieID+"','"+item.TaskID+"','"+item.mark+"'; select max(ExpertID) from balls_of_tasks",
                     MainStaticObject.SqlManager.Connection);
                 MainStaticObject.SqlManager.Connection.Close();
                 DataTable data = new DataTable();
@@ -35,17 +34,18 @@ namespace subdivision.Models.balls_of_criterion
 
             return null;
         }
-         public override void Update(CriterionBallsM item)
+
+        public override void Update(TasksBallsM item)
         {
             try
             {
                 MainStaticObject.SqlManager.Connection.Open();
                 var res = new SQLiteCommand(
-                    " update balls_of_criterion set " +
+                    " update balls_of_tasks set " +
                     "ExpertID = '" + item.ExpertID +
                     "CriterieID = '" + item.CriterieID +
+                    "TaskID = '" + item.TaskID +
                     "mark = '" + item.mark +
-                    "q = '" + item.q +
                     "' where ExpertID = " + item.ExpertID +";",
                     MainStaticObject.SqlManager.Connection);
                 res.ExecuteNonQuery();
@@ -58,13 +58,13 @@ namespace subdivision.Models.balls_of_criterion
             }
         }
 
-        public override void Delete(CriterionBallsM item)
+        public override void Delete(TasksBallsM item)
         {
             try
             {
                 MainStaticObject.SqlManager.Connection.Open();
                 var res = new SQLiteCommand(
-                    "delete from balls_of_criteries " +
+                    "delete from balls_of_tasks " +
                     " where ExpertID = "+item.ExpertID +";",
                     MainStaticObject.SqlManager.Connection);
                 res.ExecuteNonQuery();
@@ -76,13 +76,13 @@ namespace subdivision.Models.balls_of_criterion
                 MessageBox.Show("Нельзя удалить подразделение так как принмимает участие");
             }
         }
-        public SQLiteDataAdapter LoadItems(ExpertsVM ExtraVM)
+        public override SQLiteDataAdapter LoadItems()
         {
             try
             {
                 MainStaticObject.SqlManager.Connection.Open();
                 var res = new SQLiteDataAdapter(
-                    "SELECT ExpertID, CriterieID, mark, q FROM balls_of_criterion where ExpertID = "+ExtraVM.IdExpert+" order by ExpertID ",MainStaticObject.SqlManager.Connection);
+                    "SELECT ExpertID, CriterieID,TaskID,mark FROM balls_of_tasks order by ExpertID ",MainStaticObject.SqlManager.Connection);
                 MainStaticObject.SqlManager.Connection.Close();
                 return res;
             }
@@ -93,23 +93,6 @@ namespace subdivision.Models.balls_of_criterion
 
             return null;
             //return null;
-        }   
-        public override SQLiteDataAdapter LoadItems()
-        {
-            try
-            {
-                MainStaticObject.SqlManager.Connection.Open();
-                var res = new SQLiteDataAdapter(
-                    "SELECT ExpertID, CriterieID, mark, q FROM balls_of_criterion order by ExpertID ",MainStaticObject.SqlManager.Connection);
-                MainStaticObject.SqlManager.Connection.Close();
-                return res;
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("err 4" + e.Message);
-            }
-
-            return null;
-        }       
+        }
     }
 }

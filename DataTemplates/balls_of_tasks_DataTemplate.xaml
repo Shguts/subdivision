@@ -1,0 +1,49 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ballsofTasks="clr-namespace:subdivision.Pages.BallsofTasks"
+                    xmlns:wpfControls="clr-namespace:BaseObjectsMVVM.WpfControls;assembly=BaseObjectsMVVM">
+    <DataTemplate DataType="{x:Type ballsofTasks:BallsofTasksVMwm}">
+        <DockPanel>
+            <ToolBar DockPanel.Dock="Top">
+                <Button Content="Назад" Command="{Binding GoBackCommand}"/>
+                <Button Content="Добавить" Command="{Binding CreateItemsCommand}"/>
+                <Button Content="Сохранить" Command="{Binding BallsOfTasksList.SaveCommand}"/>
+                <Button DockPanel.Dock="Bottom" Content="Пересчитать" Command="{Binding CalculateInfoCommand}"></Button>
+            </ToolBar>
+            <wpfControls:DataGrid ItemsSource="{Binding BallsOfTasksList.Items}" 
+                                  AutoGenerateColumns="False"
+                                  IsReadOnly="False"
+                                  SelectedItem="{Binding BallsOfTasksList.SelectedItem}"
+                                  DoubleClickCommand="{Binding BallsOfTasksList.OpenItemCommand}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn IsReadOnly="True" Binding="{Binding ExpertID}" Header="№ эксперта"/>
+                    <DataGridTextColumn IsReadOnly="True" Binding="{Binding CriterieID}" Header="№ критерия"/>
+                    <DataGridTextColumn IsReadOnly="True" Binding="{Binding TaskID}" Header="№ задачи"/>
+                    <DataGridTextColumn IsReadOnly="True" Binding="{Binding mark}" Header="Сумма баллов или оценка критерия"/>
+                </DataGrid.Columns>
+            </wpfControls:DataGrid>
+            <ListBox DockPanel.Dock="Left" BorderThickness="3" ItemsSource="{Binding InfoArray}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate >
+                    <WrapPanel ItemWidth="40" Width="{Binding WrapPanelWidth}" ItemHeight="20"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="Black">
+                        <StackPanel>
+                            <TextBox Width="40" IsReadOnly="{Binding IsReadOnly}" Text="{Binding Descr}"/>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ListBox>
+            <TextBlock FontSize="16" Text="Эксперт №">
+                <TextBlock FontSize="16" Text="{Binding ExtraVM.IdExpert}"/>
+                <TextBlock FontSize="16" Text="{Binding ExtraVM.FirstName}"/>
+                <TextBlock FontSize="16" Text="{Binding ExtraVM.LastName}"/>
+                <TextBlock FontSize="16" Text="{Binding ExtraVM.SecondName}"/>
+            </TextBlock>
+        </DockPanel>
+    </DataTemplate>
+</ResourceDictionary>

@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Data;
 using BaseObjectsMVVM;
-using subdivision.Models.criteries;
+using subdivision.Models.balls_of_criterion;
 
-namespace subdivision.Models.balls_of_criterion
+namespace subdivision.Models.balls_of_subunits
 {
-    public class CriterionBallsVM:EntityViewModel<CriterionBallsM, CriterionBallsSql>
+    public class SubunitsBallsVM:EntityViewModel<SubunitsBallsM, SubunitsBallsSql>
     {
-        public CriterionBallsVM()
+        public SubunitsBallsVM()
         {
 
 
         }
 
-        public CriterionBallsVM(DataRow row)
+        public SubunitsBallsVM(DataRow row)
         {
             ParseArguments(row);
 
@@ -23,8 +23,9 @@ namespace subdivision.Models.balls_of_criterion
         {
             Item.ExpertID= Int32.Parse(row.ItemArray[0].ToString());
             Item.CriterieID= Int32.Parse(row.ItemArray[1].ToString());
-            Item.mark = Double.Parse(row.ItemArray[2].ToString());
-            Item.q = Double.Parse(row.ItemArray[3].ToString());
+            Item.TaskID= Int32.Parse(row.ItemArray[2].ToString());
+            Item.SubunitID= Int32.Parse(row.ItemArray[3].ToString());
+            Item.mark = Double.Parse(row.ItemArray[4].ToString());
         }
         public int ExpertID
         {
@@ -46,19 +47,29 @@ namespace subdivision.Models.balls_of_criterion
             }
             
         }
-        public double q
+        public int TaskID
         {
-            get => Item.q;
+            get => Item.TaskID;
             set
             {
-                Item.q = value;
-                OnPropertyChanged(() => q);
+                Item.TaskID = value;
+                OnPropertyChanged(() => TaskID);
+            }
+            
+        }
+        public int SubunitID
+        {
+            get => Item.SubunitID;
+            set
+            {
+                Item.SubunitID = value;
+                OnPropertyChanged(() => SubunitID);
             }
             
         }
         public double mark
         {
-            get => Convert.ToDouble(Item.mark);
+            get => Item.mark;
             set
             {
                 Item.mark = value;
@@ -66,7 +77,5 @@ namespace subdivision.Models.balls_of_criterion
             }
             
         }
-        
-        
     }
 }

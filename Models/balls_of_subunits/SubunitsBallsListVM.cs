@@ -2,33 +2,33 @@
 using System.Data;
 using System.Data.SQLite;
 using System.Windows;
-using System.Windows.Navigation;
 using BaseObjectsMVVM;
+using subdivision.Models.balls_of_criterion;
+using subdivision.Models.criteries;
 using subdivision.Models.experts;
 using subdivision.Models.Tasks;
 using subdivision.Pages.BallsofTasks;
 
-namespace subdivision.Models.balls_of_criterion
+namespace subdivision.Models.balls_of_subunits
 {
-    public class CriterionBallsListVM:DictionaryViewModel<CriterionBallsVM,CriterionBallsM,CriterionBallsSql>
+    public class SubunitsBallsListVM:DictionaryViewModel<SubunitsBallsVM,SubunitsBallsM,SubunitsBallsSql>
     {
-        
-        public CriterionBallsListVM(WorkspaceViewModel parent,ExpertsVM ExtraVM) : base(parent)
+        public SubunitsBallsListVM(WorkspaceViewModel parent,ExpertsVM ExtraVM,CriteriesVM CriteriaVM,TasksVM tasksVm) : base(parent)
         {
-            LoadItems(ExtraVM);
+            LoadItems(ExtraVM,CriteriaVM,tasksVm);
         }
-        public void LoadItems(ExpertsVM ExtraVM)
+        public void LoadItems(ExpertsVM ExtraVM,CriteriesVM CriteriaVM,TasksVM tasksVm)
         {
             try
             {
-                var PlaceSql = new CriterionBallsSql();
-                SQLiteDataAdapter adapter =  PlaceSql.LoadItems(ExtraVM);
+                var PlaceSql = new SubunitsBallsSql();
+                SQLiteDataAdapter adapter =  PlaceSql.LoadItems(ExtraVM,CriteriaVM,tasksVm);;
                 DataTable data = new DataTable();
                 adapter.Fill(data);
                 Items.Clear();
                 foreach (DataRow row in data.Rows)
                 {
-                    Items.Add(new CriterionBallsVM(row));
+                    Items.Add(new SubunitsBallsVM(row));
                 }
             }
             catch (Exception e)
@@ -41,14 +41,14 @@ namespace subdivision.Models.balls_of_criterion
         {
             try
             {
-                var PlaceSql = new CriterionBallsSql();
+                var PlaceSql = new SubunitsBallsSql();
                 SQLiteDataAdapter adapter =  PlaceSql.LoadItems();;
                 DataTable data = new DataTable();
                 adapter.Fill(data);
                 Items.Clear();
                 foreach (DataRow row in data.Rows)
                 {
-                    Items.Add(new CriterionBallsVM(row));
+                    Items.Add(new SubunitsBallsVM(row));
                 }
             }
             catch (Exception e)
@@ -57,16 +57,16 @@ namespace subdivision.Models.balls_of_criterion
             }
         }
 
-        public void AddItem(CriterionBallsVM item)
+        public void AddItem(SubunitsBallsVM item)
         {
-            var PlaceSql = new CriterionBallsSql();
+            var PlaceSql = new SubunitsBallsSql();
             PlaceSql.Create(item.Item);
             UpdateCommand.Execute(null);
         }
         
-        public override void OpenItem(CriterionBallsVM item)
+        public override void OpenItem(SubunitsBallsVM item)
         {
-            Parent.MainFrame.Navigate(new BallsofTasks(Parent.MainFrame,Parent,item.ExpertID,item.CriterieID));
+            
         }
     }
 }

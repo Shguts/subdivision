@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Data;
 using BaseObjectsMVVM;
-using subdivision.Models.criteries;
+using subdivision.Models.balls_of_criterion;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
-namespace subdivision.Models.balls_of_criterion
+namespace subdivision.Models.balls_of_tasks
 {
-    public class CriterionBallsVM:EntityViewModel<CriterionBallsM, CriterionBallsSql>
+    public class TasksBallsVM:EntityViewModel<TasksBallsM, TasksBallsSql>
     {
-        public CriterionBallsVM()
+        public TasksBallsVM()
         {
 
 
         }
 
-        public CriterionBallsVM(DataRow row)
+        public TasksBallsVM(DataRow row)
         {
             ParseArguments(row);
 
@@ -23,8 +24,8 @@ namespace subdivision.Models.balls_of_criterion
         {
             Item.ExpertID= Int32.Parse(row.ItemArray[0].ToString());
             Item.CriterieID= Int32.Parse(row.ItemArray[1].ToString());
-            Item.mark = Double.Parse(row.ItemArray[2].ToString());
-            Item.q = Double.Parse(row.ItemArray[3].ToString());
+            Item.TaskID = Int32.Parse(row.ItemArray[2].ToString());
+            Item.mark = Double.Parse(row.ItemArray[3].ToString());
         }
         public int ExpertID
         {
@@ -46,19 +47,19 @@ namespace subdivision.Models.balls_of_criterion
             }
             
         }
-        public double q
+        public int TaskID
         {
-            get => Item.q;
+            get => Item.TaskID;
             set
             {
-                Item.q = value;
-                OnPropertyChanged(() => q);
+                Item.TaskID = value;
+                OnPropertyChanged(() => TaskID);
             }
             
         }
         public double mark
         {
-            get => Convert.ToDouble(Item.mark);
+            get => Item.mark;
             set
             {
                 Item.mark = value;
@@ -66,7 +67,5 @@ namespace subdivision.Models.balls_of_criterion
             }
             
         }
-        
-        
     }
 }

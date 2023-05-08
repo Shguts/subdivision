@@ -155,6 +155,8 @@
     </Compile>
     <Compile Include="MainPage\MainPageVMwm.cs" />
     <Page Include="DataTemplates\balls_of_criterion_DataTemplate.xaml" />
+    <Page Include="DataTemplates\balls_of_subunits_DataTemplate.xaml" />
+    <Page Include="DataTemplates\balls_of_tasks_DataTemplate.xaml" />
     <Page Include="DataTemplates\mainPage_DataTemplate.xaml" />
     <Page Include="DataTemplates\table_criterion_DataTemplate.xaml" />
     <Page Include="DataTemplates\table_experts_DataTemplate.xaml" />
@@ -174,6 +176,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pages\BallsofCriterion\BallsofCriterion.xaml" />
+    <Page Include="Pages\BallsofSubunits\BallsofSubunits.xaml" />
+    <Page Include="Pages\BallsofTasks\BallsofTasks.xaml" />
+    <Page Include="Pages\Statistics\Stats.xaml" />
     <Page Include="Pages\TableExperts\Tableexperts.xaml" />
     <Page Include="Pages\TableCriterion\Criterion.xaml" />
     <Page Include="Pages\TableSubunits\Subunit.xaml" />
@@ -184,6 +189,14 @@
     <Compile Include="Models\balls_of_criterion\CriterionBallsM.cs" />
     <Compile Include="Models\balls_of_criterion\CriterionBallsSql.cs" />
     <Compile Include="Models\balls_of_criterion\CriterionBallsVM.cs" />
+    <Compile Include="Models\balls_of_subunits\SubunitsBallsListVM.cs" />
+    <Compile Include="Models\balls_of_subunits\SubunitsBallsM.cs" />
+    <Compile Include="Models\balls_of_subunits\SubunitsBallsSql.cs" />
+    <Compile Include="Models\balls_of_subunits\SubunitsBallsVM.cs" />
+    <Compile Include="Models\balls_of_tasks\TasksBallsListVM.cs" />
+    <Compile Include="Models\balls_of_tasks\TasksBallsM.cs" />
+    <Compile Include="Models\balls_of_tasks\TasksBallsSql.cs" />
+    <Compile Include="Models\balls_of_tasks\TasksBallsVM.cs" />
     <Compile Include="Models\criteries\CriteriesListVM.cs" />
     <Compile Include="Models\criteries\CriteriesM.cs" />
     <Compile Include="Models\criteries\CriteriesSql.cs" />
@@ -204,6 +217,17 @@
       <DependentUpon>BallsofCriterion.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\BallsofCriterion\BallsofCriterionVMwm.cs" />
+    <Compile Include="Pages\BallsofSubunits\BallsofSubunits.xaml.cs">
+      <DependentUpon>BallsofSubunits.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BallsofSubunits\BallsofSubunitsVMwm.cs" />
+    <Compile Include="Pages\BallsofTasks\BallsofTasks.xaml.cs">
+      <DependentUpon>BallsofTasks.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BallsofTasks\BallsofTasksVMwm.cs" />
+    <Compile Include="Pages\Statistics\Stats.xaml.cs">
+      <DependentUpon>Stats.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\TableExperts\TableexpertsVMwm.cs" />
     <Compile Include="Pages\TableExperts\Tableexperts.xaml.cs">
       <DependentUpon>Tableexperts.xaml</DependentUpon>

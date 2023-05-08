@@ -8,7 +8,7 @@
     <DataTemplate DataType="{x:Type MainPage:MainPageVMwm}">
         <DockPanel>
             <!--<wpfControls:CustomPasswordBox DockPanel.Dock="Top" Width="200" Text="{Binding psswd}"></wpfControls:CustomPasswordBox>-->
-            <Button Content="Go" DockPanel.Dock="Top" Width="200" Height="100" Command="{Binding NextPage}" />
+            <Button Content="Начать" DockPanel.Dock="Top" Width="200" Height="100" Command="{Binding NextPage}" />
             <TextBox VerticalAlignment="Center" Width="200" Text="{Binding psswd}"/>
         </DockPanel>
     </DataTemplate>

@@ -1,19 +1,17 @@
-﻿<Page x:Class="subdivision.Pages.TableSubunits.Subunit"
+﻿<Page x:Class="subdivision.Pages.BallsofTasks.BallsofTasks"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="clr-namespace:subdivision.Pages.TableSubunits"
+      xmlns:local="clr-namespace:subdivision.Pages.BallsofTasks"
       mc:Ignorable="d"
-      Title="Subunit" d:DesignHeight="1080" d:DesignWidth="1920">
+      Title="BallsofTasks" Height="1080" Width="1920">
       <Page.Resources>
             <ResourceDictionary>
                   <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="/DataTemplates/table_subunits_DataTemplate.xaml"/>
+                        <ResourceDictionary Source="/DataTemplates/balls_of_tasks_DataTemplate.xaml"/>
                   </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
       </Page.Resources>
-    
-
       <ContentPresenter Content="{Binding}"/>
 </Page>

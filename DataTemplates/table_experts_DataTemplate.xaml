@@ -10,11 +10,13 @@
         <DockPanel>
             <ToolBar DockPanel.Dock="Top">
                 <Button Content="Назад" Command="{Binding GoBackCommand}"/>
+                <Button Content="Удалить" Command="{Binding ExpertListVM.DeleteSelectedItemCommand}"/>
                 <Button Content="Обновить" Command="{Binding ExpertListVM.UpdateCommand}"/>
                 <Button Content="Сохранить" Command="{Binding ExpertListVM.SaveCommand}"/>
                 <Button Content="Критерии" Command="{Binding OpencriterionListCommnand}"/>
                 <Button Content="Подразделения" Command="{Binding OpensubunitListCommnand}"/>
                 <Button Content="Задачи" Command="{Binding OpentaskListCommnand}"/>
+                <Button Content="Статистика" Command="{Binding OpenStatsCommnand}"/>
                 <Button Content="test" Command="{Binding test}"/>
             </ToolBar>
             <StackPanel DockPanel.Dock="Right">

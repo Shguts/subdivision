@@ -1,15 +1,15 @@
 ﻿using BaseObjectsMVVM;
 
-namespace subdivision.Models.balls_of_criterion
+namespace subdivision.Models.balls_of_tasks
 {
-    public class CriterionBallsM:EntityModel
+    public class TasksBallsM:EntityModel
     {
         public int ExpertID;
 
         public int CriterieID;
 
+        public int TaskID;
+
         public double mark;
-        
-        public double q;
     }
 }

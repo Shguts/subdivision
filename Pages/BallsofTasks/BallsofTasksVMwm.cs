@@ -1,26 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Globalization;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Windows.Controls;
-using System.Windows.Media;
 using BaseObjectsMVVM;
 using projectControl;
 using subdivision.Models.balls_of_criterion;
+using subdivision.Models.balls_of_tasks;
 using subdivision.Models.criteries;
 using subdivision.Models.experts;
-using subdivision.Pages.TableSubunits;
+using subdivision.Models.Tasks;
 
-namespace subdivision.Pages.BallsofCriterion
+namespace subdivision.Pages.BallsofTasks
 {
-    public class BallsofCriterionVMwm:WorkspaceViewModel
+    public class BallsofTasksVMwm:WorkspaceViewModel
     {
-        
-        
+        private ExpertsListVM _expertslist;
+        public ExpertsListVM ExpertsListVM
+        {
+            get => _expertslist ?? (_expertslist = new ExpertsListVM(this));
+            set
+            {
+                _expertslist = value;
+                OnPropertyChanged(() => ExpertsListVM);
+            }
+        }
         private CriteriesListVM _criterieslist;
         public CriteriesListVM CriteriesListVM
         {
@@ -31,15 +38,42 @@ namespace subdivision.Pages.BallsofCriterion
                 OnPropertyChanged(() => CriteriesListVM);
             }
         }
-        
-        private CriterionBallsListVM _ballsOfCriterionList;
-        public CriterionBallsListVM BallsOfCriterionList
+        public BallsofTasksVMwm(Frame mainFrame,WorkspaceViewModel parent,int expertsVm,int criteriesVm):base(mainFrame,parent)
         {
-            get => _ballsOfCriterionList ?? (_ballsOfCriterionList = new CriterionBallsListVM(this,ExtraVM));
+            ExtraVM = ExpertsListVM.Items.FirstOrDefault(x => x.IdExpert==expertsVm);
+            CriteriaVM = CriteriesListVM.Items.FirstOrDefault(x => x.IdCriterie==criteriesVm);
+
+        }
+        private TasksListVM _taskslist;
+        public TasksListVM TasksListVM
+        {
+            get => _taskslist ?? (_taskslist = new TasksListVM(this));
             set
             {
-                _ballsOfCriterionList = value;
-                OnPropertyChanged(() =>  BallsOfCriterionList);
+                _taskslist = value;
+                OnPropertyChanged(() => TasksListVM);
+            }
+        }
+        
+        private TasksBallsListVM _ballsOfTasksList;
+        public TasksBallsListVM BallsOfTasksList
+        {
+            get => _ballsOfTasksList ?? (_ballsOfTasksList = new TasksBallsListVM(this));
+            set
+            {
+                _ballsOfTasksList = value;
+                OnPropertyChanged(() =>  BallsOfTasksList);
+            }
+        }
+        private CriteriesVM _criteriaVM;
+
+        public CriteriesVM CriteriaVM
+        {
+            get { return _criteriaVM; }
+            set
+            {
+                _criteriaVM = value;
+                OnPropertyChanged(() => CriteriaVM);
             }
         }
         private ExpertsVM _extraVM;
@@ -53,14 +87,9 @@ namespace subdivision.Pages.BallsofCriterion
                 OnPropertyChanged(() => ExtraVM);
             }
         }
-        
-        public BallsofCriterionVMwm(Frame mainframe,WorkspaceViewModel parent,ExpertsVM expertsVm):base (mainframe,parent)
-        {
-            ExtraVM = expertsVm;
-        }
         public int WrapPanelWidth
         {
-            get => (CriteriesListVM.Items.Count+1)*80;
+            get => (TasksListVM.Items.Count+1)*40;
         }
             
         private ObservableCollection<InfoExelArray> _infoArray;
@@ -73,25 +102,25 @@ namespace subdivision.Pages.BallsofCriterion
         private ObservableCollection<InfoExelArray> PushInfoArray()
         {
             var res = new ObservableCollection<InfoExelArray>();
-            res.Add(new InfoExelArray() { IsReadOnly = true, Descr = "", Background = Brushes.White});
-            foreach (var i in CriteriesListVM.Items)
+            res.Add(new InfoExelArray() { IsReadOnly = true, Descr = ""});
+            foreach (var i in TasksListVM.Items)
             {
                 
-                res.Add(new InfoExelArray() { IsReadOnly = true, Descr = i.CriteriesName});
+                res.Add(new InfoExelArray() { IsReadOnly = true, Descr = i.TaskName});
             }
             
-            for (int i = 0; i < CriteriesListVM.Items.Count; i++)
+            for (int i = 0; i < TasksListVM.Items.Count; i++)
             {
-                res.Add(new InfoExelArray() { IsReadOnly = true, Descr = CriteriesListVM.Items[i].CriteriesName});
-                for (int j = 0; j < CriteriesListVM.Items.Count; j++)
+                res.Add(new InfoExelArray() { IsReadOnly = true, Descr = TasksListVM.Items[i].TaskName});
+                for (int j = 0; j < TasksListVM.Items.Count; j++)
                 {
-                    res.Add(new InfoExelArray() { IsReadOnly = j<=i, Descr = j!=i?"0":"1",Background = j!=i?Brushes.Red:Brushes.LawnGreen});
+                    res.Add(new InfoExelArray() { IsReadOnly = j<=i, Descr = j!=i?"2":"1"});
                 }
             }
-            res.Add(new InfoExelArray() { IsReadOnly = true, Descr = "Сумма",Background = Brushes.Aqua});
-            for (int j = 0; j < CriteriesListVM.Items.Count; j++)
+            res.Add(new InfoExelArray() { IsReadOnly = true, Descr = "Сумма"});
+            for (int j = 0; j < TasksListVM.Items.Count; j++)
             {
-                res.Add(new InfoExelArray() { IsReadOnly = true, Descr = "",Background = Brushes.Aqua});
+                res.Add(new InfoExelArray() { IsReadOnly = true, Descr = ""});
             }
             return res;
         }
@@ -104,18 +133,18 @@ namespace subdivision.Pages.BallsofCriterion
 
         public void CreateItemsSum()
         {
-            NumberFormatInfo provider = new NumberFormatInfo();
-            provider.NumberDecimalSeparator = ".";
-            for (int i = 0; i < CriteriesListVM.Items.Count; i++)
+            for (int i = 0; i < TasksListVM.Items.Count; i++)
             {
                 if (ExtraVM.IdExpert != null)
                 {
-                    var a = Convert.ToDouble(InfoArray[_getIndexForSum(i)].Descr, provider);
-                    BallsOfCriterionList.AddItem(new CriterionBallsVM()
-                    {
-                        CriterieID = i+1, ExpertID = (int)ExtraVM.IdExpert,
-                        mark = a,q = res[i]/res.Sum()
-                    });
+                    double.TryParse(InfoArray[_getIndexForSum(i)].Descr, out double a);
+                    if (CriteriaVM.IdCriterie != null)
+                        BallsOfTasksList.AddItem(new TasksBallsVM()
+                        {
+                            CriterieID = (int)CriteriaVM.IdCriterie, ExpertID = (int)ExtraVM.IdExpert,
+                            TaskID = i + 1,
+                            mark = a
+                        });
                 }
                 
                 else throw new Exception("Ошибка");
@@ -128,65 +157,57 @@ namespace subdivision.Pages.BallsofCriterion
         public RelayCommand CalculateInfoCommand => _calculateInfoCommand ?? (_calculateInfoCommand =
                 new RelayCommand(obj => _calculate())
             );
-        
-        public List<double> res = new List<double>();
+
         private void _calculate()
         {
-            NumberFormatInfo provider = new NumberFormatInfo();
-            provider.NumberDecimalSeparator = ".";
-
-            for (int i = 0; i < CriteriesListVM.Items.Count; i++)
+            
+            for (int i = 0; i < TasksListVM.Items.Count; i++)
             {
                 
-                for (int j = i+1; j < CriteriesListVM.Items.Count; j++)
+                for (int j = i+1; j < TasksListVM.Items.Count; j++)
                 {
-                    InfoArray[GetIndexByIndexes(j, i)].Descr = (1/Convert.ToDouble(InfoArray[GetIndexByIndexes(i,j)].Descr,provider)).ToString(CultureInfo.InvariantCulture);
-                    InfoArray[GetIndexByIndexes(j, i)].Background = Brushes.White;
+                    InfoArray[GetIndexByIndexes(j, i)].Descr = (1/Convert.ToDouble(InfoArray[GetIndexByIndexes(i,j)].Descr)).ToString(CultureInfo.InvariantCulture);
                 }
             }
 
             
-            for (int i = 0; i < CriteriesListVM.Items.Count; i++)
+            for (int i = 0; i < TasksListVM.Items.Count; i++)
             {
                 double res1 = 0;
-                for (int j = 0; j < CriteriesListVM.Items.Count; j++)
+                for (int j = 0; j < TasksListVM.Items.Count; j++)
                 {
-                    var out1 = Convert.ToDouble(InfoArray[GetIndexByIndexes(j, i)].Descr,provider);
+                    double.TryParse(InfoArray[GetIndexByIndexes(j, i)].Descr,NumberStyles.Any,CultureInfo.InvariantCulture, out double out1);
                     res1 += out1;
                 }
                 
-                InfoArray[_getIndexForSum(i)].Descr = res1.ToString(CultureInfo.InvariantCulture);
+                InfoArray[_getIndexForSum(i)].Descr = res1.ToString();
                 
             }
-            
-            for (int i = 0; i < CriteriesListVM.Items.Count; i++)
+
+            List<double> res = new List<double>();
+            for (int i = 0; i < TasksListVM.Items.Count; i++)
             {
-                double res1 = 1;
-                for (int j = 0; j < CriteriesListVM.Items.Count; j++)
+                double res1 = 0;
+                for (int j = 0; j < TasksListVM.Items.Count; j++)
                 {
                     double.TryParse(InfoArray[GetIndexByIndexes(i, j)].Descr,NumberStyles.Any,CultureInfo.InvariantCulture, out double out1);
                     res1 *= out1;
                 }
-                var outres = (double)1 / CriteriesListVM.Items.Count;
-                res.Add(Math.Pow(res1, outres));
-                
+                res.Add(Math.Pow(res1, 1 / TasksListVM.Items.Count));
 
             }
-
-
-
-
+            
         }
 
         private int _getIndexForSum(int i)
         {
 
-            return InfoArray.Count - CriteriesListVM.Items.Count + i;
+            return InfoArray.Count - TasksListVM.Items.Count + i;
             
 
         }
 
-        public int GetIndexByIndexes(int j, int i) => (CriteriesListVM.Items.Count + 1) * (j + 1) + i + 1;
+        public int GetIndexByIndexes(int j, int i) => (TasksListVM.Items.Count + 1) * (j + 1) + i + 1;
 
     }
 
@@ -194,19 +215,7 @@ namespace subdivision.Pages.BallsofCriterion
     {
         private bool _isReadOnly;
         private string _descr;
-        private Brush _backGround;
 
-        public Brush Background
-        {
-            get => _backGround;
-            set
-            {
-                _backGround = value;  
-                OnPropertyChanged(() => Background);
-
-            }
-            
-        }
         public bool IsReadOnly
         {
             get => _isReadOnly;

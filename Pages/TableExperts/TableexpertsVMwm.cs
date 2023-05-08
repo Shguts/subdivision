@@ -15,6 +15,7 @@ using Google.Protobuf.WellKnownTypes;
 using projectControl;
 using subdivision.Models.experts;
 using subdivision.Pages;
+using subdivision.Pages.Statistics;
 using subdivision.Pages.TableCriterion;
 using subdivision.Pages.TableSubunits;
 using subdivision.Pages.TableTasks;
@@ -60,6 +61,11 @@ namespace subdivision.Pages
 
         public RelayCommand OpentaskListCommnand => _opentaskListCommnand ?? (_opentaskListCommnand =
                 new RelayCommand(obj => Navigate(new Tasks(MainFrame, this)))
+            );
+        private RelayCommand _openStatsCommand;
+
+        public RelayCommand OpenStatsCommnand => _openStatsCommand ?? (_openStatsCommand =
+                new RelayCommand(obj => Navigate(new Stats(MainFrame, this)))
             );
 
         /*private RelayCommand _test;
