@@ -47,6 +47,7 @@ namespace subdivision.Pages.Statistics
             for (int i = 0; i < CriteriesListVM.Items.Count; i++)
             {
                 GetQGlobbal.Add(BallsOfCriterionList.Items[i].q);
+                //)((
             }
         }
     }
