@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.SQLite;
+using System.Globalization;
 using System.Windows;
 using BaseObjectsMVVM;
 using subdivision.Models.balls_of_tasks;
@@ -18,8 +19,8 @@ namespace subdivision.Models.balls_of_subunits
             {
                 MainStaticObject.SqlManager.Connection.Open();
                 var res = new SQLiteDataAdapter(
-                    "insert into balls_of_subunits(ExpertID, CriterieID, TaskID , SubunitID, mark) select "
-                    +item.ExpertID+",'"+item.CriterieID+"','"+item.TaskID+"','"+item.SubunitID+"','"+item.mark+"'; select max(ExpertID) from balls_of_subunits",
+                    "insert into balls_of_subunits(ExpertID, CriterieID, TaskID , SubunitID, mark,q) select "
+                    +item.ExpertID+",'"+item.CriterieID+"','"+item.TaskID+"','"+item.SubunitID+"','"+item.mark.ToString(CultureInfo.InvariantCulture)+"','"+item.q.ToString(CultureInfo.InvariantCulture)+"'; select max(ExpertID) from balls_of_subunits",
                     MainStaticObject.SqlManager.Connection);
                 MainStaticObject.SqlManager.Connection.Close();
                 DataTable data = new DataTable();
@@ -50,6 +51,7 @@ namespace subdivision.Models.balls_of_subunits
                     "TaskID = '" + item.TaskID +
                     "SubunitID = '" + item.SubunitID +
                     "mark = '" + item.mark +
+                    "q = '" + item.q +
                     "' where ExpertID = " + item.ExpertID +";",
                     MainStaticObject.SqlManager.Connection);
                 res.ExecuteNonQuery();
@@ -86,7 +88,7 @@ namespace subdivision.Models.balls_of_subunits
             {
                 MainStaticObject.SqlManager.Connection.Open();
                 var res = new SQLiteDataAdapter(
-                    "SELECT ExpertID, CriterieID, TaskID, SubunitID, mark FROM balls_of_subunits order by ExpertID ",MainStaticObject.SqlManager.Connection);
+                    "SELECT ExpertID, CriterieID, TaskID, SubunitID, mark, q FROM balls_of_subunits order by ExpertID ",MainStaticObject.SqlManager.Connection);
                 MainStaticObject.SqlManager.Connection.Close();
                 return res;
             }
@@ -96,7 +98,6 @@ namespace subdivision.Models.balls_of_subunits
             }
 
             return null;
-            //return null;
         }
         public SQLiteDataAdapter LoadItems(ExpertsVM ExtraVM,CriteriesVM CrteriaVM,TasksVM tasksVm)
         {
@@ -104,7 +105,7 @@ namespace subdivision.Models.balls_of_subunits
             {
                 MainStaticObject.SqlManager.Connection.Open();
                 var res = new SQLiteDataAdapter(
-                    "SELECT ExpertID, CriterieID,SubunitID, mark FROM balls_of_subunits where ExpertID = "+ExtraVM.IdExpert+" and " +
+                    "SELECT ExpertID, CriterieID,TaskID, SubunitID, mark, q FROM balls_of_subunits where ExpertID = "+ExtraVM.IdExpert+" and " +
                     "CriterieID = "+CrteriaVM.IdCriterie+" and TaskID = "+tasksVm.IdTask+" order by ExpertID ",MainStaticObject.SqlManager.Connection);
                 MainStaticObject.SqlManager.Connection.Close();
                 return res;

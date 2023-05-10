@@ -7,8 +7,8 @@
             <ToolBar DockPanel.Dock="Top">
                 <Button Content="Назад" Command="{Binding GoBackCommand}"/>
                 <Button Content="Добавить" Command="{Binding CreateItemsCommand}"/>
-                <Button Content="Сохранить" Command="{Binding BallsOfSubunitList.SaveCommand}"/>
-                <Button DockPanel.Dock="Bottom" Content="Пересчитать" Command="{Binding CalculateInfoCommand}"></Button>
+                <Button Background="Crimson" DockPanel.Dock="Bottom" Content="Пересчитать" Command="{Binding CalculateInfoCommand}"></Button>
+                <Button Background="Purple" DockPanel.Dock="Bottom" Content="Завершить" Command="{Binding GoBackCommand}"></Button>
             </ToolBar>
             <wpfControls:DataGrid ItemsSource="{Binding BallsOfSubunitList.Items}" 
                                   AutoGenerateColumns="False"
@@ -26,14 +26,14 @@
             <ListBox DockPanel.Dock="Left" BorderThickness="3" ItemsSource="{Binding InfoArray}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate >
-                    <WrapPanel ItemWidth="40" Width="{Binding WrapPanelWidth}" ItemHeight="20"/>
+                    <WrapPanel ItemWidth="80" Width="{Binding WrapPanelWidth}" ItemHeight="40"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Border BorderBrush="Black">
                         <StackPanel>
-                            <TextBox Width="40" IsReadOnly="{Binding IsReadOnly}" Text="{Binding Descr}"/>
+                            <TextBox Background="{Binding Background}" Height="90" Width="600" IsReadOnly="{Binding IsReadOnly}" Text="{Binding Descr}"/>
                         </StackPanel>
                     </Border>
                 </DataTemplate>
@@ -44,6 +44,17 @@
                 <TextBlock FontSize="16" Text="{Binding ExtraVM.FirstName}"/>
                 <TextBlock FontSize="16" Text="{Binding ExtraVM.LastName}"/>
                 <TextBlock FontSize="16" Text="{Binding ExtraVM.SecondName}"/>
+                <LineBreak/>
+                <TextBlock FontSize="16" >На этой странице располагается логика оценивания подразделений</TextBlock>
+                <LineBreak/>
+                <TextBlock FontSize="16" >где эксперт выбирает то подразделение.</TextBlock>
+                <LineBreak/>
+                <TextBlock FontSize="16" >В таблице приведена информация где эксперт может увидеть свой иденификатор</TextBlock>
+                <LineBreak/>
+                <TextBlock FontSize="16" >и информацию где приведена сумма баллов каждого подразделения.</TextBlock>
+                <LineBreak/>
+                <TextBlock FontSize="16" >Кнопка завершить нужна для того чтобы подтвердить оценивание подразделений.</TextBlock>
+                <LineBreak/>
             </TextBlock>
         </DockPanel>
     </DataTemplate>

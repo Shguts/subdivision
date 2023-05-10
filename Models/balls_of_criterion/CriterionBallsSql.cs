@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.SQLite;
+using System.Globalization;
 using System.Windows;
 using BaseObjectsMVVM;
 using subdivision.Models.experts;
@@ -14,15 +15,17 @@ namespace subdivision.Models.balls_of_criterion
         {
             try
             {
+                NumberFormatInfo provider = new NumberFormatInfo();
+                provider.NumberDecimalSeparator = ".";
+                provider.NumberGroupSeparator = ",";
                 MainStaticObject.SqlManager.Connection.Open();
                 var res = new SQLiteDataAdapter(
                     "insert into balls_of_criterion(ExpertID, CriterieID,mark,q) select "
-                    +item.ExpertID+",'"+item.CriterieID+"','"+item.mark+"','"+item.q+"'; select max(ExpertID) from balls_of_criterion",
+                    +item.ExpertID+",'"+item.CriterieID+"','"+item.mark.ToString(CultureInfo.InvariantCulture)+"','"+item.q.ToString(CultureInfo.InvariantCulture)+"'; select max(ExpertID) from balls_of_criterion",
                     MainStaticObject.SqlManager.Connection);
                 MainStaticObject.SqlManager.Connection.Close();
                 DataTable data = new DataTable();
                 res.Fill(data);
-                
                 if (data.Rows.Count > 0)
                 {
                     return Int32.Parse(data.Rows[0][0].ToString());

@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Data;
 using System.Data.SQLite;
+using System.Globalization;
 using System.Windows;
 using BaseObjectsMVVM;
 using subdivision.Models.balls_of_criterion;
+using subdivision.Models.criteries;
+using subdivision.Models.experts;
 
 namespace subdivision.Models.balls_of_tasks
 {
@@ -15,8 +18,8 @@ namespace subdivision.Models.balls_of_tasks
             {
                 MainStaticObject.SqlManager.Connection.Open();
                 var res = new SQLiteDataAdapter(
-                    "insert into balls_of_tasks(ExpertID, CriterieID, TaskID ,mark) select "
-                    +item.ExpertID+",'"+item.CriterieID+"','"+item.TaskID+"','"+item.mark+"'; select max(ExpertID) from balls_of_tasks",
+                    "insert into balls_of_tasks(ExpertID, CriterieID, TaskID ,mark, q) select "
+                    +item.ExpertID+",'"+item.CriterieID+"','"+item.TaskID+"','"+item.mark.ToString(CultureInfo.InvariantCulture)+"','"+item.q.ToString(CultureInfo.InvariantCulture)+"'; select max(ExpertID) from balls_of_tasks",
                     MainStaticObject.SqlManager.Connection);
                 MainStaticObject.SqlManager.Connection.Close();
                 DataTable data = new DataTable();
@@ -46,6 +49,7 @@ namespace subdivision.Models.balls_of_tasks
                     "CriterieID = '" + item.CriterieID +
                     "TaskID = '" + item.TaskID +
                     "mark = '" + item.mark +
+                    "q = '" + item.q +
                     "' where ExpertID = " + item.ExpertID +";",
                     MainStaticObject.SqlManager.Connection);
                 res.ExecuteNonQuery();
@@ -73,7 +77,7 @@ namespace subdivision.Models.balls_of_tasks
             }
             catch (Exception e)
             {
-                MessageBox.Show("Нельзя удалить подразделение так как принмимает участие");
+                MessageBox.Show("Нельзя удалить задачу так как принмимает участие");
             }
         }
         public override SQLiteDataAdapter LoadItems()
@@ -82,7 +86,26 @@ namespace subdivision.Models.balls_of_tasks
             {
                 MainStaticObject.SqlManager.Connection.Open();
                 var res = new SQLiteDataAdapter(
-                    "SELECT ExpertID, CriterieID,TaskID,mark FROM balls_of_tasks order by ExpertID ",MainStaticObject.SqlManager.Connection);
+                    "SELECT ExpertID, CriterieID,TaskID,mark,q FROM balls_of_tasks order by ExpertID ",MainStaticObject.SqlManager.Connection);
+                MainStaticObject.SqlManager.Connection.Close();
+                return res;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("err 4" + e.Message);
+            }
+
+            return null;
+            //return null;
+        }
+        public SQLiteDataAdapter LoadItems(ExpertsVM ExtraVM,CriteriesVM CrteriaVM)
+        {
+            try
+            {
+                MainStaticObject.SqlManager.Connection.Open();
+                var res = new SQLiteDataAdapter(
+                    "SELECT ExpertID, CriterieID,TaskID,mark,q FROM balls_of_tasks where ExpertID = "+ExtraVM.IdExpert+" and " +
+                    "CriterieID = "+CrteriaVM.IdCriterie+" order by ExpertID ",MainStaticObject.SqlManager.Connection);
                 MainStaticObject.SqlManager.Connection.Close();
                 return res;
             }

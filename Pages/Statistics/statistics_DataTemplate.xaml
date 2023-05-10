@@ -3,23 +3,66 @@
                     xmlns:statistics="clr-namespace:subdivision.Pages.Statistics">
      <DataTemplate DataType="{x:Type statistics:StatsVMwm}">
         <DockPanel>
-            <TextBlock FontSize="16" Text="q глобальный для критериев"/>
-            <ListBox DockPanel.Dock="Left" BorderThickness="3" ItemsSource="{Binding BallsOfCriterionList}">
+            <ToolBar DockPanel.Dock="Top">
+                <Button Content="Назад" Command="{Binding GoBackCommand}"/>
+            </ToolBar>
+            <TextBlock DockPanel.Dock="Top" FontSize="16" Text="СТАТИСТИКА"/>
+            <ListBox DockPanel.Dock="Left" BorderThickness="3" ItemsSource="{Binding InfoArrayCriterie}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate >
-                        <WrapPanel ItemWidth="40" Width="{Binding WrapPanelWidth}" ItemHeight="20"/>
+                        <WrapPanel ItemWidth="80" Width="{Binding WrapPanelWidth}" ItemHeight="40"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border BorderBrush="Black">
                             <StackPanel>
-                                <TextBox Width="40" IsReadOnly="True" Text="{Binding Descr}"/>
+                                <TextBox Background="Chartreuse" FontSize="16" Height="90" Width="600" IsReadOnly="True" Text="{Binding Descr}"/>
                             </StackPanel>
                         </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ListBox>
+            <ListBox DockPanel.Dock="Left" BorderThickness="3" ItemsSource="{Binding InfoArrayTasks}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate >
+                        <WrapPanel ItemWidth="80" Width="{Binding WrapPanelWidth}" ItemHeight="40"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="Black">
+                            <StackPanel>
+                                <TextBox Background="Chartreuse" FontSize="16" Height="90" Width="600" IsReadOnly="True" Text="{Binding Descr}"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ListBox>
+            <ListBox DockPanel.Dock="Left" BorderThickness="3" ItemsSource="{Binding InfoArraySubunits}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate >
+                        <WrapPanel ItemWidth="80" Width="{Binding WrapPanelWidth}" ItemHeight="40"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="Black">
+                            <StackPanel>
+                                <TextBox Background="Chartreuse" FontSize="16" Height="90" Width="600" IsReadOnly="True" Text="{Binding Descr}"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ListBox>
+            <TextBlock>
+            <TextBlock FontSize="16" Text="1 таблица: q глобальный для критериев"/>
+            <LineBreak/>
+            <TextBlock FontSize="16" Text="2 таблица: q глобальный для задач"/>
+            <LineBreak/>
+            <TextBlock FontSize="16" Text="3 таблица: q глобальный для подразделений"/>
+            <LineBreak/>
+            </TextBlock>
         </DockPanel>
     </DataTemplate>
 </ResourceDictionary>

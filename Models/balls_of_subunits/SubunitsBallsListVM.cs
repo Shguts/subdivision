@@ -13,6 +13,10 @@ namespace subdivision.Models.balls_of_subunits
 {
     public class SubunitsBallsListVM:DictionaryViewModel<SubunitsBallsVM,SubunitsBallsM,SubunitsBallsSql>
     {
+        public SubunitsBallsListVM(WorkspaceViewModel parent): base(parent)
+        {
+            LoadItems();
+        }
         public SubunitsBallsListVM(WorkspaceViewModel parent,ExpertsVM ExtraVM,CriteriesVM CriteriaVM,TasksVM tasksVm) : base(parent)
         {
             LoadItems(ExtraVM,CriteriaVM,tasksVm);

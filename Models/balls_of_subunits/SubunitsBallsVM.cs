@@ -26,6 +26,7 @@ namespace subdivision.Models.balls_of_subunits
             Item.TaskID= Int32.Parse(row.ItemArray[2].ToString());
             Item.SubunitID= Int32.Parse(row.ItemArray[3].ToString());
             Item.mark = Double.Parse(row.ItemArray[4].ToString());
+            Item.q = Double.Parse(row.ItemArray[5].ToString());
         }
         public int ExpertID
         {
@@ -74,6 +75,16 @@ namespace subdivision.Models.balls_of_subunits
             {
                 Item.mark = value;
                 OnPropertyChanged(() => mark);
+            }
+            
+        }
+        public double q
+        {
+            get => Item.q;
+            set
+            {
+                Item.q = value;
+                OnPropertyChanged(() => q);
             }
             
         }

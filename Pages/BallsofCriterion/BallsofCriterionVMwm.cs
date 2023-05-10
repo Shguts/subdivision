@@ -20,7 +20,6 @@ namespace subdivision.Pages.BallsofCriterion
     public class BallsofCriterionVMwm:WorkspaceViewModel
     {
         
-        
         private CriteriesListVM _criterieslist;
         public CriteriesListVM CriteriesListVM
         {
@@ -110,11 +109,11 @@ namespace subdivision.Pages.BallsofCriterion
             {
                 if (ExtraVM.IdExpert != null)
                 {
-                    var a = Convert.ToDouble(InfoArray[_getIndexForSum(i)].Descr, provider);
+                    var a = Convert.ToDecimal(InfoArray[_getIndexForSum(i)].Descr, provider);
                     BallsOfCriterionList.AddItem(new CriterionBallsVM()
                     {
                         CriterieID = i+1, ExpertID = (int)ExtraVM.IdExpert,
-                        mark = a,q = res[i]/res.Sum()
+                        mark = a,q = Convert.ToDouble(res[i]/res.Sum(),provider)
                     });
                 }
                 
@@ -177,7 +176,15 @@ namespace subdivision.Pages.BallsofCriterion
 
 
         }
+        public override void SaveViewModel()
+        {
+            BallsOfCriterionList.SaveItems();
+        }
 
+        public override void UpdateViewModel()
+        {
+            BallsOfCriterionList.UpdateCommand.Execute(null);
+        }
         private int _getIndexForSum(int i)
         {
 

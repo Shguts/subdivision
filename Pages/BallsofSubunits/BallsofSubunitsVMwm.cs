@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Windows.Controls;
+using System.Windows.Media;
 using BaseObjectsMVVM;
 using projectControl;
 using subdivision.Models.balls_of_criterion;
@@ -115,7 +116,7 @@ namespace subdivision.Pages.BallsofSubunits
         
         public int WrapPanelWidth
         {
-            get => (SubunitsListVM.Items.Count+1)*40;
+            get => (SubunitsListVM.Items.Count+1)*80;
         }
             
         private ObservableCollection<InfoExelArray> _infoArray;
@@ -132,21 +133,21 @@ namespace subdivision.Pages.BallsofSubunits
             foreach (var i in SubunitsListVM.Items)
             {
                 
-                res.Add(new InfoExelArray() { IsReadOnly = true, Descr = i.SubunitName});
+                res.Add(new InfoExelArray() { IsReadOnly = true, Descr = i.SubunitName,Background = Brushes.White});
             }
             
             for (int i = 0; i < SubunitsListVM.Items.Count; i++)
             {
-                res.Add(new InfoExelArray() { IsReadOnly = true, Descr = SubunitsListVM.Items[i].SubunitName});
+                res.Add(new InfoExelArray() { IsReadOnly = true, Descr = SubunitsListVM.Items[i].SubunitName,Background = Brushes.White});
                 for (int j = 0; j < SubunitsListVM.Items.Count; j++)
                 {
-                    res.Add(new InfoExelArray() { IsReadOnly = j<=i, Descr = j!=i?"2":"1"});
+                    res.Add(new InfoExelArray() { IsReadOnly = j<=i, Descr = j!=i?"0":"1",Background = j!=i?Brushes.Red:Brushes.LawnGreen});
                 }
             }
-            res.Add(new InfoExelArray() { IsReadOnly = true, Descr = "Сумма"});
+            res.Add(new InfoExelArray() { IsReadOnly = true, Descr = "Сумма",Background = Brushes.Aqua});
             for (int j = 0; j < SubunitsListVM.Items.Count; j++)
             {
-                res.Add(new InfoExelArray() { IsReadOnly = true, Descr = ""});
+                res.Add(new InfoExelArray() { IsReadOnly = true, Descr = "",Background = Brushes.Aqua});
             }
             return res;
         }
@@ -159,18 +160,20 @@ namespace subdivision.Pages.BallsofSubunits
 
         public void CreateItemsSum()
         {
+            NumberFormatInfo provider = new NumberFormatInfo();
+            provider.NumberDecimalSeparator = ".";
             for (int i = 0; i < SubunitsListVM.Items.Count; i++)
             {
                 if (ExtraVM.IdExpert != null)
                 {
-                    double.TryParse(InfoArray[_getIndexForSum(i)].Descr, out double a);
+                    var a = Convert.ToDouble(InfoArray[_getIndexForSum(i)].Descr, provider);
                     if (CriteriaVM.IdCriterie != null)
                         if (TaskeVM.IdTask != null)
                             BallsOfSubunitList.AddItem(new SubunitsBallsVM()
                             {
                                 CriterieID = (int)CriteriaVM.IdCriterie, ExpertID = (int)ExtraVM.IdExpert,
                                 TaskID = (int)TaskeVM.IdTask,SubunitID = i+1,
-                                mark = a
+                                mark = a,q = Convert.ToDouble(res[i]/res.Sum(),provider)
                             });
                 }
                 
@@ -178,23 +181,29 @@ namespace subdivision.Pages.BallsofSubunits
                 //_getIndexForSum(i);
             }
         }
-        
+        public List<double> res = new List<double>();
         private RelayCommand _calculateInfoCommand;
 
         public RelayCommand CalculateInfoCommand => _calculateInfoCommand ?? (_calculateInfoCommand =
                 new RelayCommand(obj => _calculate())
             );
         
-
+        private RelayCommand _createMaimW;
+        public RelayCommand NextPage => _createMaimW ?? (_createMaimW = new RelayCommand(obj =>Parent.MainFrame.Navigate(new MainPage.MainPage(null))));
+        public RelayCommand CreateMainW => _createMaimW ?? (_createMaimW =
+                new RelayCommand(obj => CreateItemsSum())
+            );
         private void _calculate()
         {
-            
+            NumberFormatInfo provider = new NumberFormatInfo();
+            provider.NumberDecimalSeparator = ".";
             for (int i = 0; i < SubunitsListVM.Items.Count; i++)
             {
                 
                 for (int j = i+1; j < SubunitsListVM.Items.Count; j++)
                 {
-                    InfoArray[GetIndexByIndexes(j, i)].Descr = (1/Convert.ToDouble(InfoArray[GetIndexByIndexes(i,j)].Descr)).ToString(CultureInfo.InvariantCulture);
+                    InfoArray[GetIndexByIndexes(j, i)].Descr = (1/Convert.ToDouble(InfoArray[GetIndexByIndexes(i,j)].Descr,provider)).ToString(CultureInfo.InvariantCulture);
+                    InfoArray[GetIndexByIndexes(j, i)].Background = Brushes.White;
                 }
             }
 
@@ -204,25 +213,26 @@ namespace subdivision.Pages.BallsofSubunits
                 double res1 = 0;
                 for (int j = 0; j < SubunitsListVM.Items.Count; j++)
                 {
-                    double.TryParse(InfoArray[GetIndexByIndexes(j, i)].Descr,NumberStyles.Any,CultureInfo.InvariantCulture, out double out1);
+                    var out1 = Convert.ToDouble(InfoArray[GetIndexByIndexes(j, i)].Descr,provider);
                     res1 += out1;
                 }
                 
-                InfoArray[_getIndexForSum(i)].Descr = res1.ToString();
+                InfoArray[_getIndexForSum(i)].Descr = res1.ToString(CultureInfo.InvariantCulture);
                 
             }
-
-            List<double> res = new List<double>();
+            
             for (int i = 0; i < SubunitsListVM.Items.Count; i++)
             {
-                double res1 = 0;
+                double res1 = 1;
                 for (int j = 0; j < SubunitsListVM.Items.Count; j++)
                 {
-                    double.TryParse(InfoArray[GetIndexByIndexes(i, j)].Descr,NumberStyles.Any,CultureInfo.InvariantCulture, out double out1);
+                    var out1 = Convert.ToDouble(InfoArray[GetIndexByIndexes(i, j)].Descr,provider);
                     res1 *= out1;
                 }
-                res.Add(Math.Pow(res1, 1 / SubunitsListVM.Items.Count));
 
+                var resout = (double) 1 / SubunitsListVM.Items.Count;
+                res.Add(Math.Pow(res1, 1/resout));
+                    
             }
             
         }
@@ -238,12 +248,24 @@ namespace subdivision.Pages.BallsofSubunits
         public int GetIndexByIndexes(int j, int i) => (SubunitsListVM.Items.Count + 1) * (j + 1) + i + 1;
 
     }
-
+    
     public class InfoExelArray : INotifyPropertyChanged
     {
         private bool _isReadOnly;
         private string _descr;
+        private Brush _backGround;
 
+        public Brush Background
+        {
+            get => _backGround;
+            set
+            {
+                _backGround = value;  
+                OnPropertyChanged(() => Background);
+
+            }
+            
+        }
         public bool IsReadOnly
         {
             get => _isReadOnly;

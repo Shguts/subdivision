@@ -7,8 +7,7 @@
             <ToolBar DockPanel.Dock="Top">
                 <Button Content="Назад" Command="{Binding GoBackCommand}"/>
                 <Button Content="Добавить" Command="{Binding CreateItemsCommand}"/>
-                <Button Content="Сохранить" Command="{Binding BallsOfTasksList.SaveCommand}"/>
-                <Button DockPanel.Dock="Bottom" Content="Пересчитать" Command="{Binding CalculateInfoCommand}"></Button>
+                <Button Background="Crimson" DockPanel.Dock="Bottom" Content="Пересчитать" Command="{Binding CalculateInfoCommand}"></Button>
             </ToolBar>
             <wpfControls:DataGrid ItemsSource="{Binding BallsOfTasksList.Items}" 
                                   AutoGenerateColumns="False"
@@ -25,14 +24,14 @@
             <ListBox DockPanel.Dock="Left" BorderThickness="3" ItemsSource="{Binding InfoArray}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate >
-                    <WrapPanel ItemWidth="40" Width="{Binding WrapPanelWidth}" ItemHeight="20"/>
+                    <WrapPanel ItemWidth="80" Width="{Binding WrapPanelWidth}" ItemHeight="40"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Border BorderBrush="Black">
                         <StackPanel>
-                            <TextBox Width="40" IsReadOnly="{Binding IsReadOnly}" Text="{Binding Descr}"/>
+                            <TextBox Height="90" Width="600" Background="{Binding Background}" IsReadOnly="{Binding IsReadOnly}" Text="{Binding Descr}"/>
                         </StackPanel>
                     </Border>
                 </DataTemplate>
@@ -43,6 +42,18 @@
                 <TextBlock FontSize="16" Text="{Binding ExtraVM.FirstName}"/>
                 <TextBlock FontSize="16" Text="{Binding ExtraVM.LastName}"/>
                 <TextBlock FontSize="16" Text="{Binding ExtraVM.SecondName}"/>
+                <LineBreak/>
+                <TextBlock FontSize="16" >На этой странице располагается логика оценивания задач</TextBlock>
+                <LineBreak/>
+                <TextBlock FontSize="16" >где эксперт выбирает ту задачу, по которому он хочет оценивать подразделения.</TextBlock>
+                <LineBreak/>
+                <TextBlock FontSize="16" >В таблице приведена информация где эксперт может увидеть свой иденификатор</TextBlock>
+                <LineBreak/>
+                <TextBlock FontSize="16" >и информацию где приведена сумма баллов каждого задачи.</TextBlock>
+                <LineBreak/>
+                <TextBlock FontSize="16" >Для того чтобы выбрать ту задачу по которому он хочет перейти,</TextBlock>
+                <LineBreak/>
+                <TextBlock FontSize="16" >нужно кликнуть по этому критерию дважды.</TextBlock>
             </TextBlock>
         </DockPanel>
     </DataTemplate>

@@ -8,7 +8,7 @@ namespace subdivision.Models.balls_of_criterion
 
         public int CriterieID;
 
-        public double mark;
+        public decimal mark;
         
         public double q;
     }

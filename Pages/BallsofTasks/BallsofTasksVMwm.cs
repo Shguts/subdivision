@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Windows.Controls;
+using System.Windows.Media;
 using BaseObjectsMVVM;
 using projectControl;
 using subdivision.Models.balls_of_criterion;
@@ -58,7 +59,7 @@ namespace subdivision.Pages.BallsofTasks
         private TasksBallsListVM _ballsOfTasksList;
         public TasksBallsListVM BallsOfTasksList
         {
-            get => _ballsOfTasksList ?? (_ballsOfTasksList = new TasksBallsListVM(this));
+            get => _ballsOfTasksList ?? (_ballsOfTasksList = new TasksBallsListVM(this,ExtraVM,CriteriaVM));
             set
             {
                 _ballsOfTasksList = value;
@@ -89,7 +90,7 @@ namespace subdivision.Pages.BallsofTasks
         }
         public int WrapPanelWidth
         {
-            get => (TasksListVM.Items.Count+1)*40;
+            get => (TasksListVM.Items.Count+1)*80;
         }
             
         private ObservableCollection<InfoExelArray> _infoArray;
@@ -102,11 +103,11 @@ namespace subdivision.Pages.BallsofTasks
         private ObservableCollection<InfoExelArray> PushInfoArray()
         {
             var res = new ObservableCollection<InfoExelArray>();
-            res.Add(new InfoExelArray() { IsReadOnly = true, Descr = ""});
+            res.Add(new InfoExelArray() { IsReadOnly = true, Descr = "", Background = Brushes.White});
             foreach (var i in TasksListVM.Items)
             {
                 
-                res.Add(new InfoExelArray() { IsReadOnly = true, Descr = i.TaskName});
+                res.Add(new InfoExelArray() { IsReadOnly = true, Descr = i.TaskName, Background = Brushes.White});
             }
             
             for (int i = 0; i < TasksListVM.Items.Count; i++)
@@ -114,13 +115,13 @@ namespace subdivision.Pages.BallsofTasks
                 res.Add(new InfoExelArray() { IsReadOnly = true, Descr = TasksListVM.Items[i].TaskName});
                 for (int j = 0; j < TasksListVM.Items.Count; j++)
                 {
-                    res.Add(new InfoExelArray() { IsReadOnly = j<=i, Descr = j!=i?"2":"1"});
+                    res.Add(new InfoExelArray() { IsReadOnly = j<=i, Descr = j!=i?"2":"1",Background = j!=i?Brushes.Red:Brushes.LawnGreen});
                 }
             }
-            res.Add(new InfoExelArray() { IsReadOnly = true, Descr = "Сумма"});
+            res.Add(new InfoExelArray() { IsReadOnly = true, Descr = "Сумма",Background = Brushes.Aqua});
             for (int j = 0; j < TasksListVM.Items.Count; j++)
             {
-                res.Add(new InfoExelArray() { IsReadOnly = true, Descr = ""});
+                res.Add(new InfoExelArray() { IsReadOnly = true, Descr = "",Background = Brushes.Aqua});
             }
             return res;
         }
@@ -130,20 +131,31 @@ namespace subdivision.Pages.BallsofTasks
         public RelayCommand CreateItemsCommand => _createItemsCommand ?? (_createItemsCommand =
                 new RelayCommand(obj => CreateItemsSum())
             );
+        public override void SaveViewModel()
+        {
+            BallsOfTasksList.SaveItems();
+        }
 
+        public override void UpdateViewModel()
+        {
+            BallsOfTasksList.UpdateCommand.Execute(null);
+        }
+        
         public void CreateItemsSum()
         {
+            NumberFormatInfo provider = new NumberFormatInfo();
+            provider.NumberDecimalSeparator = ".";
             for (int i = 0; i < TasksListVM.Items.Count; i++)
             {
                 if (ExtraVM.IdExpert != null)
                 {
-                    double.TryParse(InfoArray[_getIndexForSum(i)].Descr, out double a);
+                    var a = Convert.ToDouble(InfoArray[_getIndexForSum(i)].Descr, provider);
                     if (CriteriaVM.IdCriterie != null)
                         BallsOfTasksList.AddItem(new TasksBallsVM()
                         {
                             CriterieID = (int)CriteriaVM.IdCriterie, ExpertID = (int)ExtraVM.IdExpert,
                             TaskID = i + 1,
-                            mark = a
+                            mark = a,q = Convert.ToDouble(res[i]/res.Sum(),provider)
                         });
                 }
                 
@@ -157,16 +169,18 @@ namespace subdivision.Pages.BallsofTasks
         public RelayCommand CalculateInfoCommand => _calculateInfoCommand ?? (_calculateInfoCommand =
                 new RelayCommand(obj => _calculate())
             );
-
+        public List<double> res = new List<double>();
         private void _calculate()
         {
-            
+            NumberFormatInfo provider = new NumberFormatInfo();
+            provider.NumberDecimalSeparator = ".";
             for (int i = 0; i < TasksListVM.Items.Count; i++)
             {
                 
                 for (int j = i+1; j < TasksListVM.Items.Count; j++)
                 {
-                    InfoArray[GetIndexByIndexes(j, i)].Descr = (1/Convert.ToDouble(InfoArray[GetIndexByIndexes(i,j)].Descr)).ToString(CultureInfo.InvariantCulture);
+                    InfoArray[GetIndexByIndexes(j, i)].Descr = (1/Convert.ToDouble(InfoArray[GetIndexByIndexes(i,j)].Descr,provider)).ToString(CultureInfo.InvariantCulture);
+                    InfoArray[GetIndexByIndexes(j, i)].Background = Brushes.White;
                 }
             }
 
@@ -176,27 +190,28 @@ namespace subdivision.Pages.BallsofTasks
                 double res1 = 0;
                 for (int j = 0; j < TasksListVM.Items.Count; j++)
                 {
-                    double.TryParse(InfoArray[GetIndexByIndexes(j, i)].Descr,NumberStyles.Any,CultureInfo.InvariantCulture, out double out1);
+                    var out1 = Convert.ToDouble(InfoArray[GetIndexByIndexes(j, i)].Descr,provider);
                     res1 += out1;
                 }
                 
-                InfoArray[_getIndexForSum(i)].Descr = res1.ToString();
+                InfoArray[_getIndexForSum(i)].Descr = res1.ToString(CultureInfo.InvariantCulture);
                 
             }
-
-            List<double> res = new List<double>();
+            
             for (int i = 0; i < TasksListVM.Items.Count; i++)
             {
-                double res1 = 0;
+                double res1 = 1;
                 for (int j = 0; j < TasksListVM.Items.Count; j++)
                 {
-                    double.TryParse(InfoArray[GetIndexByIndexes(i, j)].Descr,NumberStyles.Any,CultureInfo.InvariantCulture, out double out1);
+                    var out1 = Convert.ToDouble(InfoArray[GetIndexByIndexes(i, j)].Descr,provider);
                     res1 *= out1;
                 }
-                res.Add(Math.Pow(res1, 1 / TasksListVM.Items.Count));
+
+                var outres = (double)1 / TasksListVM.Items.Count;
+                res.Add(Math.Pow(res1, 1 / outres));
 
             }
-            
+
         }
 
         private int _getIndexForSum(int i)
@@ -215,6 +230,19 @@ namespace subdivision.Pages.BallsofTasks
     {
         private bool _isReadOnly;
         private string _descr;
+        private Brush _backGround;
+
+        public Brush Background
+        {
+            get => _backGround;
+            set
+            {
+                _backGround = value;  
+                OnPropertyChanged(() => Background);
+
+            }
+            
+        }
 
         public bool IsReadOnly
         {

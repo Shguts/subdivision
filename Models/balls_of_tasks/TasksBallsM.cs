@@ -11,5 +11,7 @@ namespace subdivision.Models.balls_of_tasks
         public int TaskID;
 
         public double mark;
+
+        public double q;
     }
 }

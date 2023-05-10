@@ -17,7 +17,6 @@
                 <Button Content="Подразделения" Command="{Binding OpensubunitListCommnand}"/>
                 <Button Content="Задачи" Command="{Binding OpentaskListCommnand}"/>
                 <Button Content="Статистика" Command="{Binding OpenStatsCommnand}"/>
-                <Button Content="test" Command="{Binding test}"/>
             </ToolBar>
             <StackPanel DockPanel.Dock="Right">
                 <StackPanel>

@@ -8,6 +8,7 @@ namespace subdivision.Models.balls_of_tasks
 {
     public class TasksBallsVM:EntityViewModel<TasksBallsM, TasksBallsSql>
     {
+        
         public TasksBallsVM()
         {
 
@@ -26,6 +27,7 @@ namespace subdivision.Models.balls_of_tasks
             Item.CriterieID= Int32.Parse(row.ItemArray[1].ToString());
             Item.TaskID = Int32.Parse(row.ItemArray[2].ToString());
             Item.mark = Double.Parse(row.ItemArray[3].ToString());
+            Item.q = Double.Parse(row.ItemArray[4].ToString());
         }
         public int ExpertID
         {
@@ -64,6 +66,16 @@ namespace subdivision.Models.balls_of_tasks
             {
                 Item.mark = value;
                 OnPropertyChanged(() => mark);
+            }
+            
+        }
+        public double q
+        {
+            get => Item.q;
+            set
+            {
+                Item.q = value;
+                OnPropertyChanged(() => q);
             }
             
         }

@@ -13,5 +13,7 @@ namespace subdivision.Models.balls_of_subunits
         public int SubunitID;
 
         public double mark;
+
+        public double q;
     }
 }

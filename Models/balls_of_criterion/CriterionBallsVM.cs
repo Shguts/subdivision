@@ -23,7 +23,7 @@ namespace subdivision.Models.balls_of_criterion
         {
             Item.ExpertID= Int32.Parse(row.ItemArray[0].ToString());
             Item.CriterieID= Int32.Parse(row.ItemArray[1].ToString());
-            Item.mark = Double.Parse(row.ItemArray[2].ToString());
+            Item.mark = Decimal.Parse(row.ItemArray[2].ToString());
             Item.q = Double.Parse(row.ItemArray[3].ToString());
         }
         public int ExpertID
@@ -56,9 +56,9 @@ namespace subdivision.Models.balls_of_criterion
             }
             
         }
-        public double mark
+        public decimal mark
         {
-            get => Convert.ToDouble(Item.mark);
+            get => Convert.ToDecimal(Item.mark);
             set
             {
                 Item.mark = value;
